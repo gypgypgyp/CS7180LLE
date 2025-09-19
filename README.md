@@ -2,3 +2,37 @@
 
 Reimplements this paper https://arxiv.org/abs/2308.08197
 
+**Teammates:** Richard Zhao(Training), Oliver Fritsche(Testing) , Yunpei Gu (model)
+**Course:** CS 7180 Advanced Perception  
+
+## Project Overview
+
+This project implements Stage1 of the Self-Reference Deep Adaptive Curve Estimation (Self-DACE) method for low-light image enhancement. The implementation is based on the Zero-DCE architecture and focuses on learning pixel-wise curve parameters for image enhancement.
+
+## Model
+
+Model is in model.py
+
+quick sanity test of model.py:
+
+```bash
+python model_test.py
+```
+
+Expected: prints shapes like:
+
+```bash
+enhanced: torch.Size([1, 3, 256, 256]) ...
+alpha_stack: torch.Size([1, 21, 256, 256])
+beta_stack : torch.Size([1, 21, 256, 256])
+```
+
+Used in training:
+```bash
+import torch
+import model  # model.py
+
+net = model.light_net().cuda().train()
+# x0 in [0,1], shape Bx3xHxW
+enhanced, alpha_stack, beta_stack = net(x0)
+```
