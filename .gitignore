@@ -205,3 +205,70 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# --- Project-specific (DL artifacts) ---
+# Model weights / checkpoints / exports
+*.pth
+*.pt
+*.pth.tar
+*.ckpt
+*.onnx
+*.engine
+*.tflite
+*.ptl
+*.weights
+
+# Numpy / SciPy artifacts & pickles
+*.npy
+*.npz
+*.pkl
+*.joblib
+*.sav
+
+# Training logs & trackers
+runs/                 # TensorBoard
+events.out.tfevents.*
+lightning_logs/       # PyTorch Lightning
+wandb/                # Weights & Biases
+mlruns/               # MLflow
+
+# Outputs
+result/
+results/
+outputs/
+output/
+snapshots*/
+checkpoints/
+logs/
+*.log
+
+# Data (keep only tiny samples in repo)
+data/
+datasets/
+# If you keep metadata/configs, whitelist them:
+!data/README.md
+!datasets/README.md
+
+# Large media (put on Drive per assignment)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.gif
+*.webm
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# OS cruft
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+desktop.ini
+
+# Editors / temp files
+*.swp
+*.swo
+*~
