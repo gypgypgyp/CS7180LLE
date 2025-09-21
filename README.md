@@ -47,8 +47,8 @@ enhanced, alpha_stack, beta_stack = net(x0)
 
 ## Training
 
-Overview:
+```
+python train.py
+```
 
-4 losses
-
-
+Run tensorboard only if you're training locally `tensorboard --logdir=runs`

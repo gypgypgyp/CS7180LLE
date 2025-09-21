@@ -27,6 +27,8 @@ WEIGHT_DECAY = 1e-4
 LR = 1e-4
 BATCH_SIZE = 8
 NUM_EPOCHS = 5
+GRAD_CLIP_NORM = 0.1
+LR_SCHEDULER_GAMMA = 0.99
 
 # Loss associated hyperparameters
 W_LOCAL = 1000
@@ -57,6 +59,9 @@ if __name__ == "__main__":
         model.parameters(),
         weight_decay=WEIGHT_DECAY,
         lr=LR,
+    )
+    scheduler = torch.optim.lr_scheduler.StepLR(
+        opt, step_size=1, gamma=LR_SCHEDULER_GAMMA
     )
 
     # Loss
@@ -109,6 +114,7 @@ if __name__ == "__main__":
                 # Update parameter
                 opt.zero_grad()
                 loss.backward()
+                torch.nn.utils.clip_grad_norm(model.parameters(), GRAD_CLIP_NORM)
                 opt.step()
 
                 # Log
@@ -118,12 +124,16 @@ if __name__ == "__main__":
                 logger.info(f"Loss for batch {train_batch_idx}: {loss.item()}")
                 train_batch_idx += 1
 
+            # Update LR after each epoch
+            scheduler.step()
+
         end_time = time.perf_counter()
         logger.info(f"Finished: Took {end_time - start_time}s")
 
     except KeyboardInterrupt:
         pass
     finally:
+        # Save model either when interrupted or training done.
         output_model = f"epoch_{epoch_idx}_model.pth"
         logger.info(f"Saving Model before Quitting as {output_model}")
         torch.save(model.state_dict(), output_model)

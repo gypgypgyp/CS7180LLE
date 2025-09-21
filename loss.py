@@ -111,11 +111,6 @@ class LuminanceLoss(nn.Module):
             3 * self.y * (1 - per_pixel_dist_from_white_color)
         )  # H in paper of shape (B, H, W)
 
-        # print("hi")
-        # print(per_pixel_intensity)
-        # print(per_pixel_dist_from_white_color)
-        # print(per_pixel_intensity_target)
-
         per_sample_loss = (
             per_pixel_intensity - per_pixel_intensity_target
         ) ** 2  # each sample is a pixel-wise loss (B, H, W)
@@ -173,11 +168,6 @@ class TotalLoss(nn.Module):
         self.CurveSmoothnessLoss = CurveSmoothnessLoss()
 
     def forward(self, alphas, betas, I_enhanced, E_original, E_enhanced):
-        print("Local loss", self.LocalColorLoss(E_original, E_enhanced))
-        print("Global loss", self.GlobalColorLoss(I_enhanced))
-        print("lum loss", self.LuminanceLoss(I_enhanced, E_original))
-        print("alpha loss", self.CurveSmoothnessLoss(alphas))
-        print("beta loss", self.CurveSmoothnessLoss(betas))
         return (
             self.w_local * self.LocalColorLoss(E_original, E_enhanced)
             + self.w_global * self.GlobalColorLoss(I_enhanced)
