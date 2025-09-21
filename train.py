@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
-from tqdm import tqdm
+from tqdm.auto import tqdm
 import os
 from model import light_net
 from data import ImageDataset
@@ -114,14 +114,14 @@ if __name__ == "__main__":
                 # Update parameter
                 opt.zero_grad()
                 loss.backward()
-                torch.nn.utils.clip_grad_norm(model.parameters(), GRAD_CLIP_NORM)
+                torch.nn.utils.clip_grad_norm_(model.parameters(), GRAD_CLIP_NORM)
                 opt.step()
 
                 # Log
-                writer.add_scalar(
-                    "Train Loss [every batch]", loss.item(), train_batch_idx
+                writer.add_scalar("Train Loss [batch]", loss.item(), train_batch_idx)
+                train_dl_pbar.set_description(
+                    f"Train loss for batch {train_batch_idx}, {loss.item()}"
                 )
-                logger.info(f"Loss for batch {train_batch_idx}: {loss.item()}")
                 train_batch_idx += 1
 
             # Update LR after each epoch
