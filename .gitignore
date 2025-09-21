@@ -208,7 +208,7 @@ __marimo__/
 
 # --- Project-specific (DL artifacts) ---
 # Model weights / checkpoints / exports
-*.pth
+# *.pth
 *.pt
 *.pth.tar
 *.ckpt
@@ -243,7 +243,7 @@ logs/
 *.log
 
 # Data (keep only tiny samples in repo)
-data/
+# data/
 datasets/
 # If you keep metadata/configs, whitelist them:
 !data/README.md
