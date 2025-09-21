@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # Name: Yunpei Gu (Team: Richard Zhao, Oliver Fritsche, Yunpei Gu)
 # Class: CS 7180 Advanced Perception
 # Date: 2025-09-17
@@ -119,7 +118,7 @@ class light_net(nn.Module):
                 nn.init.ones_(m.weight)
                 nn.init.zeros_(m.bias)
 
-    def forward(self, xo):
+    def forward(self, xo, output_intermediate_images: bool = False, alpha_scale: float = 1.0):
         """
         Forward pass of Stage-I AAC enhancement.
         Major sections:
@@ -130,6 +129,9 @@ class light_net(nn.Module):
 
         Args:
             xo: (B,3,H,W) low-light input in [0,1]
+            output_intermediate_images: If True, also return a list of per-iteration enhanced images.
+            alpha_scale: Optional global multiplier for the per-iteration step (alpha). 
+                     Keeps default behavior when set to 1.0.
         Returns:
             (enhanced, alpha_stack, beta_stack)
         """
@@ -175,14 +177,24 @@ class light_net(nn.Module):
         #                 1 + torch.exp(-10 * (-xo + xr1[:, 3 * i:3 * i + 3, :, :] - 0.1))) * xo * (
         #                      xr1[:, 3 * i:3 * i + 3, :, :] - xo) * (1 / xr1[:, 3 * i:3 * i + 3, :, :])
         
-        for r, r1 in zip(xr, xr1):
-            xo = xo + r / (1 + torch.exp(-10 * (-xo + r1 - 0.1))) * xo * (r1 - xo) / r1
+        if output_intermediate_images:
+            intermediates = [] # to save the intermediates images
 
+        for r, r1 in zip(xr, xr1):
+            # xo = xo + r / (1 + torch.exp(-10 * (-xo + r1 - 0.1))) * xo * (r1 - xo) / r1
+            a = alpha_scale * r
+            S = 1.0 / (1.0 + torch.exp(-10 * (-xo + r1 - 0.1)))
+            xo = xo + a * S * xo * (r1 - xo) / r1
+            if output_intermediate_images:
+                intermediates.append(xo.clamp(0, 1))
         # xo = xo.clamp(0, 1) # after training, the output is supposed to be in the [0, 1] range without clamping.
 
         xr = torch.cat([x1_a, x2_a, x3_a, x4_a, x5_a, x6_a, x7_a], dim=1)  
         xr1 = torch.cat([x1_b, x2_b, x3_b, x4_b, x5_b, x6_b, x7_b], dim=1)  
 
+        if output_intermediate_images:
+            return xo, xr, xr1, intermediates
+        
         return xo, xr, xr1
 
 
