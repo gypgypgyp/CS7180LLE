@@ -9,6 +9,14 @@ Reimplements this paper https://arxiv.org/abs/2308.08197
 
 This project implements Stage1 of the Self-Reference Deep Adaptive Curve Estimation (Self-DACE) method for low-light image enhancement. The implementation is based on the Zero-DCE architecture and focuses on learning pixel-wise curve parameters for image enhancement.
 
+
+## Data
+
+Following the paper, we train using the SICE Part 1 dataset (2002 images). 
+
+We used the SICE Part 1 dataset, already resized to 512x512 size, provided in https://github.com/Developer-Zer0/ZeroDCE/tree/main/Dataset
+
+
 ## Model
 
 Model is in model.py
@@ -36,3 +44,11 @@ net = model.light_net().cuda().train()
 # x0 in [0,1], shape Bx3xHxW
 enhanced, alpha_stack, beta_stack = net(x0)
 ```
+
+## Training
+
+Overview:
+
+4 losses
+
+
