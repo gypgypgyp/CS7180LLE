@@ -3,7 +3,6 @@ import os
 from torch.utils.data import Dataset
 import glob
 import logging
-import torch
 from torchvision import transforms
 from typing import Tuple
 
