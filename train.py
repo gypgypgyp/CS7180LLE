@@ -4,7 +4,7 @@ from torch.utils.tensorboard import SummaryWriter
 from tqdm import tqdm
 import os
 from model import light_net
-from data import SICEDataset
+from data import ImageDataset
 from loss import TotalLoss
 import logging
 import time
@@ -26,7 +26,7 @@ DATA_DIR = os.path.join("data", "sice_part1")
 WEIGHT_DECAY = 1e-4
 LR = 1e-4
 BATCH_SIZE = 8
-NUM_EPOCHS = 5
+NUM_EPOCHS = 200
 GRAD_CLIP_NORM = 0.1
 LR_SCHEDULER_GAMMA = 0.99
 
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
     # Data
-    train_ds = SICEDataset(img_dir=DATA_DIR)
+    train_ds = ImageDataset(img_dir=DATA_DIR, resize=(512, 512))
     train_dl = DataLoader(
         train_ds,
         batch_size=BATCH_SIZE,
