@@ -1,3 +1,8 @@
+# Name: Richard Zhao (Team: Richard Zhao, Oliver Fritsche, Yunpei Gu)
+# Class: CS 7180 Advanced Perception
+# Date: 2025-09-17
+# Purpose: Training script
+
 import torch
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter

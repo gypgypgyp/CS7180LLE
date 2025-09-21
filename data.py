@@ -1,3 +1,9 @@
+# Name: Richard Zhao (Team: Richard Zhao, Oliver Fritsche, Yunpei Gu)
+# Class: CS 7180 Advanced Perception
+# Date: 2025-09-17
+# Purpose: Construct a torch.Dataset that reads and transform images from a folder of images with format <number>.jpg (or png).
+#          The transformations performed are resizing, normalizing, converting to tensor.
+
 from torchvision.io import read_image
 import os
 from torch.utils.data import Dataset

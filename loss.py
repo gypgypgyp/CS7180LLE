@@ -1,9 +1,13 @@
-import torch
-from torch import nn
-
+# Name: Richard Zhao (Team: Richard Zhao, Oliver Fritsche, Yunpei Gu)
+# Class: CS 7180 Advanced Perception
+# Date: 2025-09-17
+# Purpose: Define loss functions used in the paper.
 # Notations:
 # E = estimated reflectance map (essentially chromaticity/color ratio),
 # I = image intensity normalized to unit range.
+
+import torch
+from torch import nn
 
 BATCH_DIM = 0
 CHANNEL_DIM = 1
