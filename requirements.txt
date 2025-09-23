@@ -1,9 +1,9 @@
 # Requirements for Self-DACE Stage1 Implementation
 # CS 7180 Advanced Perception
-
-# Core dependencies (for model testing on macOS)
 torch>=1.10.0
 torchvision>=0.11.0
 numpy>=1.20.0
 tensorboard 
 tqdm
+matplotlib
+pillow
